@@ -29,7 +29,7 @@ def split_text(text, max_chars=3500):
     return chunks
 
 # 将长文本分成若干段（每段不超过3500个字符）
-chunks = split_text(transcription, max_chars=3500)
+chunks = split_text(transcription, max_chars=10000)
 
 # 针对每个分段调用 OpenAI 的 API 生成摘要
 intermediate_summaries = []
@@ -45,7 +45,7 @@ for i, chunk in enumerate(chunks):
         {"role": "user", "content": prompt},
     ],
     temperature=0.7,
-    max_tokens=500)
+    max_tokens=16384)
     summary_chunk = response.choices[0].message.content.strip()
     print(f"第 {i+1} 段摘要：\n{summary_chunk}\n")
     intermediate_summaries.append(summary_chunk)
